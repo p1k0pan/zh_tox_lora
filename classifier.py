@@ -46,10 +46,10 @@ if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-32B")
 
     # Configurae the sampling parameters (for thinking mode)
-    sampling_params = SamplingParams(temperature=0.6, top_p=0.95, top_k=20, max_tokens=32768)
+    sampling_params = SamplingParams(temperature=0.6, top_p=0.95, top_k=20, max_tokens=512)
 
     # Initialize the vLLM engine
-    llm = LLM(model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier")
+    llm = LLM(model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier", gpu_memory_utilization=0.95)
 
     data = json.load(open("./data/Style-datasets-idx.json", "r", encoding="utf-8"))
     keys = ["toxic", "neutral", "polite"]
