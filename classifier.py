@@ -72,5 +72,5 @@ if __name__ == "__main__":
 
     output_path = Path("/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result")
     output_path.mkdir(parents=True, exist_ok=True)
-    json.dump(data, open(output_path / "Style-datasets-idx-classify.json", "w", encoding="utf-8"), ensure_ascii=False, indent=4)
+    json.dump(data, open(output_path / "Style-datasets-idx-classify_v2.json", "w", encoding="utf-8"), ensure_ascii=False, indent=4)
     print("Classification completed and saved to", output_path / "Style-datasets-idx-classify_v2.json")
