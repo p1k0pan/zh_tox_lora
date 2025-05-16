@@ -7,6 +7,8 @@
 - 权重保存在`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/lora_weights_full_data/{时间戳}`（确认最新的）
 - 手动合并，修改`merge.sh`里面的`--ckpt_dir`后面的地址为权重地址，然后运行`bash merge.sh`
 - 输出的合并地址为：`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier/`
+- 测试分类效果，运行：`CUDA_VISIBLE_DEVICES=0,1,2,3 python classifier.py`，输出文件是`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/Style-datasets-idx-classify.json`
+
 ### 2025年5月15日
 - 使用ms-swift的lora微调qwen3-32b模型作为中文毒性分类器
 - 步骤
