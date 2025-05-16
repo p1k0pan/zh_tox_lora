@@ -4,14 +4,6 @@ import json
 from tqdm import tqdm
 from pathlib import Path
 
-# Initialize the tokenizer
-tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-32B")
-
-# Configurae the sampling parameters (for thinking mode)
-sampling_params = SamplingParams(temperature=0.6, top_p=0.95, top_k=20, max_tokens=32768)
-
-# Initialize the vLLM engine
-llm = LLM(model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier")
 
 # Prepare the input to the model
 system_prompt = """你是一个文明表达的审查员，你的任务是判断用户输入的中文表达是否含有毒性。判断依据如下：
@@ -49,6 +41,16 @@ def classify(sentence):
     return response
 
 if __name__ == "__main__":
+
+    # Initialize the tokenizer
+    tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-32B")
+
+    # Configurae the sampling parameters (for thinking mode)
+    sampling_params = SamplingParams(temperature=0.6, top_p=0.95, top_k=20, max_tokens=32768)
+
+    # Initialize the vLLM engine
+    llm = LLM(model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier")
+
     data = json.load(open("./data/Style-datasets-idx.json", "r", encoding="utf-8"))
     keys = ["toxic", "neutral", "polite"]
     for item in tqdm(data):
