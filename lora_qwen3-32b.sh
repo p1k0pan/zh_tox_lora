@@ -20,8 +20,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
 swift sft \
     --model Qwen/Qwen3-32B \
     --train_type lora \
-    --dataset ./data/train_6516.json \
-    --val_dataset ./data/val_1632.json \
+    --dataset ./data/train_full_8148.json \
     --torch_dtype bfloat16 \
     --num_train_epochs 3 \
     --per_device_train_batch_size 4 \
@@ -32,12 +31,12 @@ swift sft \
     --lora_alpha 16 \
     --target_modules all-linear \
     --gradient_accumulation_steps 2 \
-    --eval_steps 100 \
+    --eval_steps 50 \
     --save_steps 100 \
     --save_total_limit 5 \
     --logging_steps 5 \
     --max_length 2048 \
-    --output_dir /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/lora_weights/ \
+    --output_dir /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/lora_weights_full_data/ \
     --warmup_ratio 0.05 \
     --lora_dropout 0.05 \
     --deepspeed zero3 \
@@ -45,14 +44,14 @@ swift sft \
     --dataloader_num_workers 4
 
 
-# 如果训练成功才导出
-if [[ $? -eq 0 ]]; then
-  echo "✅ 训练完成，准备合并 LoRA 权重..."
-  swift export \
-    --ckpt_dir /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/lora_weights/ \
-    --merge_lora true \
-    --output_dir /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier/
-else
-  echo "❌ 训练失败，跳过导出。"
-  exit 1
-fi
+# # 如果训练成功才导出
+# if [[ $? -eq 0 ]]; then
+#   echo "✅ 训练完成，准备合并 LoRA 权重..."
+#   swift export \
+#     --ckpt_dir /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/lora_weights/ \
+#     --merge_lora true \
+#     --output_dir /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier/
+# else
+#   echo "❌ 训练失败，跳过导出。"
+#   exit 1
+# fi
