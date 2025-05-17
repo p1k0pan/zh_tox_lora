@@ -3,7 +3,7 @@ from vllm import LLM, SamplingParams
 import json
 from tqdm import tqdm
 from pathlib import Path
-
+import argparse
 
 # Prepare the input to the model
 system_prompt = """你是一名文本情感与毒性分析专家。阅读用户给出的文本，然后判断它属于下面三类中的哪一类。
@@ -44,6 +44,22 @@ def flush(prompts, meta):
         data[idx].setdefault("classify", {})[k] = p
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--model', 
+        type=str, 
+        default="", 
+        help=f'Name of the model to use. '
+    )
+    parser.add_argument(
+        '--save_file',
+        type=str,
+        default="",
+        help=f'Path to save the classification results. '
+    )
+    
+    # 解析命令行参数
+    args = parser.parse_args()
 
     # Initialize the tokenizer
     tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-32B")
@@ -58,7 +74,8 @@ if __name__ == "__main__":
 
     # Initialize the vLLM engine
     llm = LLM(
-        model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier_v2",
+        # model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-style-polarity",
+        model = args.model,
         max_model_len=4096,
         gpu_memory_utilization=0.80,
         tensor_parallel_size=4
@@ -94,5 +111,5 @@ if __name__ == "__main__":
 
     output_path = Path("/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result")
     output_path.mkdir(parents=True, exist_ok=True)
-    json.dump(data, open(output_path / "Style-datasets-idx-polarity.json", "w", encoding="utf-8"), ensure_ascii=False, indent=4)
-    print("Classification completed and saved to", output_path / "Style-datasets-idx-polarity.json")
+    json.dump(data, open(output_path / args.save_file, "w", encoding="utf-8"), ensure_ascii=False, indent=4)
+    print("Classification completed and saved to", output_path / args.save_file)
