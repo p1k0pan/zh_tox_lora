@@ -6,14 +6,14 @@
 - 测试分类效果，运行：`CUDA_VISIBLE_DEVICES=0,1,2,3 python style_classifier_batch.py --model /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-style-polarity --save_file Style-datasets-idx-polarity.json`，输出文件是`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/Style-datasets-idx-polarity.json`
 - 测试错误率，运行`python pol_eval.python --file /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/Style-datasets-idx-polarity.json`，记录一下错误率。
 
-#### Alter1: 如果上一个结果还是出现neutral错误率很高
+#### Alter1: 如果上一个结果还是出现neutral错误率很高，对上一个版本继续训练
 - 单独用neutral的数据继续微调3个epoch，lr: 5e-6。运行`bash lora_qwen3-32b_style_continue.sh`
 - 权重保存在`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/lora_weights_style_polarity_continue/{时间戳version}/{checkpoint最新的}`（需要确认最新的）
 - 手动合并，修改`merge.sh`里面的`--adapters`后面的地址为权重地址，`--output_dir`应该是`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-style-polarity_continue`。然后运行`CUDA_VISIBLE_DEVICES=0 bash merge.sh`
 - 测试分类效果，运行：`CUDA_VISIBLE_DEVICES=0,1,2,3 python style_classifier_batch.py --model /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-style-polarity_continue --save_file Style-datasets-idx-polarity_continue.json`，输出文件是`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/Style-datasets-idx-polarity_continue.json`
 - 测试错误率，运行`python pol_eval.python --file /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/Style-datasets-idx-polarity_continue.json`，记录一下错误率。
 
-#### Alter2: 如果上一个结果还是出现neutral错误率很高
+#### Alter2: 如果上一个结果还是出现neutral错误率很高，提高中性的数据配比
 - 数据配比tox:1500, neutral:3000, polite:1500。运行`bash lora_qwen3-32b_style_ratio121.sh`
 - 权重保存在`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/lora_weights_style_polarity_ratio121/{时间戳version}/{checkpoint最新的}`（需要确认最新的）
 - 手动合并，修改`merge.sh`里面的`--adapters`后面的地址为权重地址，`--output_dir`应该是`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-style-polarity_ratio121`。然后运行`CUDA_VISIBLE_DEVICES=0 bash merge.sh`
