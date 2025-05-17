@@ -42,7 +42,6 @@ def flush(prompts, meta):
 
     for (idx, k), p in zip(meta, preds):
         data[idx].setdefault("classify", {})[k] = p
-        print(f"idx: {idx}, k: {k}, p: {p}")
 
 if __name__ == "__main__":
 
@@ -52,7 +51,7 @@ if __name__ == "__main__":
     # Configurae the sampling parameters (for thinking mode)
     sampling_params = SamplingParams (
         temperature=0,
-        top_p=0.95,
+        top_p=0.9,
         top_k=20,
         max_tokens=128
     )
@@ -61,7 +60,7 @@ if __name__ == "__main__":
     llm = LLM(
         model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier_v2",
         max_model_len=4096,
-        gpu_memory_utilization=0.90,
+        gpu_memory_utilization=0.80,
         tensor_parallel_size=4
     )
 

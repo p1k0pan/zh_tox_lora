@@ -57,7 +57,7 @@ if __name__ == "__main__":
     # Configurae the sampling parameters (for thinking mode)
     sampling_params = SamplingParams (
         temperature=0,
-        top_p=0.95,
+        top_p=0.9,
         top_k=20,
         max_tokens=128
     )
