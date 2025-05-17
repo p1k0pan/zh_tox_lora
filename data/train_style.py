@@ -17,7 +17,8 @@ Toxic/Neutral/Polite
 def build_dataset(data):
     ds = []
     i = 0
-    keys = [ "toxic", "neutral", "polite"]
+    # keys = [ "toxic", "neutral", "polite"]
+    keys = [ "toxic", "neutral","neutral", "polite"]
     for item in data:
         for key in keys:
             if key == "toxic":
@@ -50,4 +51,5 @@ def build_dataset(data):
 ds,i = build_dataset(data)
 print(len(ds))
 
-json.dump(ds, open(f"train_pol_{len(ds)}.json", "w", encoding="utf-8"), ensure_ascii=False, indent=4)
+# json.dump(ds, open(f"train_pol_{len(ds)}.json", "w", encoding="utf-8"), ensure_ascii=False, indent=4)
+json.dump(ds, open(f"train_pol_ratio_212.json", "w", encoding="utf-8"), ensure_ascii=False, indent=4)
