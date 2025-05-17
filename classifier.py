@@ -57,7 +57,8 @@ if __name__ == "__main__":
     llm = LLM(
         model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier_v2",
         max_model_len=4096,
-        gpu_memory_utilization=0.90
+        gpu_memory_utilization=0.90,
+        tensor_parallel_size=8
     )
 
     data = json.load(open("./data/Style-datasets-idx.json", "r", encoding="utf-8"))
