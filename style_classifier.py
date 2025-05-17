@@ -33,6 +33,22 @@ def classify(sentence):
     response = outputs[0].outputs[0].text
     return response
 
+def classify_batch(sentences):
+    """sentences: List[str]  ->  List[str]"""
+    prompts = []
+    for s in sentences:
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user",   "content": s}
+        ]
+        prompts.append(
+            tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        )
+
+    # vLLM 接受 List[str]，顺序不变地返回同长度的结果
+    outputs = llm.generate(prompts, sampling_params)
+    return [o.outputs[0].text.strip() for o in outputs]
+
 if __name__ == "__main__":
 
     # Initialize the tokenizer
@@ -57,12 +73,16 @@ if __name__ == "__main__":
     data = json.load(open("./data/Style-datasets-idx.json", "r", encoding="utf-8"))
     keys = ["toxic", "neutral", "polite"]
     for item in tqdm(data):
-        save = {}
-        for key in keys:
-            key_sentence = item[key]
-            res = classify(key_sentence)
-            save[key] = res
-        item["classify"] = save
+        # save = {}
+        # for key in keys:
+        #     key_sentence = item[key]
+        #     res = classify(key_sentence)
+        #     save[key] = res
+        # item["classify"] = save
+
+        sents = [item[k] for k in keys]
+        res_list = classify_batch(sents)
+        item["classify"] = dict(zip(keys, res_list))
 
     output_path = Path("/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result")
     output_path.mkdir(parents=True, exist_ok=True)
