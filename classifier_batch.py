@@ -3,6 +3,7 @@ from vllm import LLM, SamplingParams
 import json
 from tqdm import tqdm
 from pathlib import Path
+import sys
 
 
 # Prepare the input to the model
@@ -56,6 +57,17 @@ def classify_batch(sentences):
     outputs = llm.generate(prompts, sampling_params)
     return [o.outputs[0].text.strip() for o in outputs]
 
+def flush(prompts, meta):
+    """把累计的一批 prompts 送进 vLLM，并把结果写回 data。"""
+    if not prompts:
+        return
+    outputs = llm.generate(prompts, sampling_params)
+    preds   = [o.outputs[0].text.strip() for o in outputs]
+
+    for (idx, k), p in zip(meta, preds):
+        data[idx].setdefault("classify", {})[k] = p
+        print(f"idx: {idx}, k: {k}, p: {p}")
+
 if __name__ == "__main__":
 
     # Initialize the tokenizer
@@ -79,17 +91,32 @@ if __name__ == "__main__":
 
     data = json.load(open("./data/Style-datasets-idx.json", "r", encoding="utf-8"))
     keys = ["toxic", "neutral", "polite"]
-    for item in tqdm(data):
-        # save = {}
-        # for key in keys:
-        #     key_sentence = item[key]
-        #     res = classify(key_sentence)
-        #     save[key] = res
-        # item["classify"] = save
 
-        sents = [item[k] for k in keys]
-        res_list = classify_batch(sents)
-        item["classify"] = dict(zip(keys, res_list))
+    prompts   = []
+    meta      = []
+
+    BATCH_SZ = 128
+    for idx, item in enumerate(tqdm(data, desc="batch infer")):
+        # 为同一个样本的 3 句话都创建 prompt
+        for k in keys:
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user",   "content": item[k]}
+            ]
+            prompts.append(
+                tokenizer.apply_chat_template(messages, tokenize=False,
+                                            add_generation_prompt=True)
+            )
+            meta.append((idx, k))
+
+        # 满批就推理一次
+        if len(prompts) >= BATCH_SZ:
+            flush(prompts, meta)
+            prompts, meta = [], []
+
+    # 处理残余 < BATCH_SZ 的部分
+    flush(prompts, meta)
+
 
     output_path = Path("/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result")
     output_path.mkdir(parents=True, exist_ok=True)
