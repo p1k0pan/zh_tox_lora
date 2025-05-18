@@ -10,7 +10,7 @@ import sys
 system_prompt = """你是一个文明表达的审查员，你的任务是判断用户输入的中文表达是否含有毒性。判断依据如下：
 
 毒性：
-1. 含有轻微脏话、不雅用词、粗俗表达或比喻侮辱。
+1. 含有轻微脏话、不雅用词、粗俗表达。
 2. 使用变体脏话、拼音脏词、谐音粗话、委婉替代词（如"tm，特么，sb，woc，我超，鸟事"等），这些表达在语境中常用作粗俗表达。
 3. 含有明显的歧视、仇恨、侮辱、性别攻击、动物比喻式人身攻击、侮辱性动物词或恶意中伤。
 
@@ -21,7 +21,7 @@ system_prompt = """你是一个文明表达的审查员，你的任务是判断�
 - 如果句子只是包含强烈的情感极性和表达意图，如愤怒、激动、讽刺、委屈、激昂等，只要不包含毒性表达，都不能算含有毒性。
 
 输出格式：
-有毒/无毒。简要解释原因。
+有毒/无毒。
 """
 
 def classify(sentence):
@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
     # Initialize the vLLM engine
     llm = LLM(
-        model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier_v3",
+        model="/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-tox-classifier",
         max_model_len=4096,
         gpu_memory_utilization=0.80,
         tensor_parallel_size=4

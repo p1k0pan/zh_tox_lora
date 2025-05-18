@@ -2,6 +2,11 @@
 
 ## 日志
 ### 2025年5月18日
+- 对所有结果进行毒性分类
+- Terminal 1运行：`bash tox_eval_open.sh`，Terminal 2运行：`bash tox_eval_close.sh`
+- 结果保存在`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/open-source_results`以及`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/closed-source_results`
+
+### 2025年5月18日
 #### 重新运行第一版情感极性分类器效果
 - 测试分类效果，运行：`CUDA_VISIBLE_DEVICES=0,1,2,3 python style_classifier_batch.py --model /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/merged_lora/qwen3-32b-style-polarity --save_file Style-datasets-idx-polarity.json`，输出文件是`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/Style-datasets-idx-polarity.json`
 - 测试错误率，运行`python pol_eval.python --file /mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/Style-datasets-idx-polarity.json`，记录一下错误率。
