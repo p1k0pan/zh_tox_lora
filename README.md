@@ -2,6 +2,10 @@
 
 ## 日志
 ### 2025年5月18日
+#### 对所有结果进行风格分类
+- Terminal 1运行：`bash style_eval_open.sh`，Terminal 2运行：`bash style_eval_close.sh`
+- 结果保存在`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/open-source_style_results`以及`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/closed-source_style_results`
+
 #### 对所有结果进行毒性分类
 - Terminal 1运行：`bash tox_eval_open.sh`，Terminal 2运行：`bash tox_eval_close.sh`
 - 结果保存在`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/open-source_results`以及`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/closed-source_results`
