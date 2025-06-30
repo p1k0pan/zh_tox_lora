@@ -105,4 +105,8 @@ if __name__ == "__main__":
     for file in open_source.rglob("*.json"):
         data = json.load(open(file, "r", encoding="utf-8"))
         print(f"Processing {file}")
-        process_one_file()
+        try:
+            process_one_file()
+        except Exception as e:
+            print(f"Error processing {file}: {e}")
+            continue
