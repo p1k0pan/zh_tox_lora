@@ -14,4 +14,4 @@ else
 fi
 
 CUDA_VISIBLE_DEVICES=0,1,2,3 \
-python classifier_model_batch.py --folder manual_eval_tox
+python classifier_model_batch.py --folder manual_eval_tox_v2

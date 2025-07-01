@@ -1,6 +1,10 @@
 # zh_tox_lora
 
 ## 日志
+### 2025年7月2日
+- - Terminal 1运行：`bash tox_eval_manual.sh`，Terminal 2运行：`bash style_eval_manual.sh`
+- 结果保存在`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/manual_eval_tox_v2_results`以及`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/manual_eval_style_v2_style_results` 
+
 ### 2025年7月1日
 - - Terminal 1运行：`bash tox_eval_manual.sh`，Terminal 2运行：`bash style_eval_manual.sh`
 - 结果保存在`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/manual_eval_tox_results`以及`/mnt/workspace/xintong/pjh/All_result/zh_tox_lora/class_result/manual_eval_style_style_results` 
