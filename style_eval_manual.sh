@@ -14,4 +14,4 @@ else
 fi
 
 CUDA_VISIBLE_DEVICES=4,5,6,7 \
-python style_classifier_model_batch.py --folder manual_eval_style
+python style_classifier_model_batch.py --folder manual_eval_style_v2
